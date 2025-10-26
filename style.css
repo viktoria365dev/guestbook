@@ -8,10 +8,12 @@ body {
   margin: 2rem;
   color: #333;
 }
+
 h1 {
   text-align: center;
   color: #444;
 }
+
 form {
   max-width: 500px;
   margin: 1rem auto;
@@ -20,6 +22,7 @@ form {
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
+
 input,
 textarea {
   width: 100%;
@@ -29,6 +32,19 @@ textarea {
   border-radius: 4px;
   font-size: 1rem;
 }
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+#counter {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+
 button {
   background: #4caf50;
   color: white;
@@ -38,13 +54,16 @@ button {
   cursor: pointer;
   font-size: 1rem;
 }
+
 button:hover {
   background: #45a049;
 }
+
 .messages {
   max-width: 600px;
   margin: 2rem auto;
 }
+
 .entry {
   background: #fff;
   padding: 1rem;
@@ -52,9 +71,11 @@ button:hover {
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
+
 .entry strong {
   color: #2c3e50;
 }
+
 .time {
   font-size: 0.85rem;
   color: #777;
