@@ -1,6 +1,12 @@
 <?php
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+      // Honeypot spam check
+    if (!empty($_POST["website"])) { 
+        exit; 
+    }
+
     $name = htmlspecialchars($_POST["name"]);
     $message = htmlspecialchars($_POST["message"]);
 
@@ -23,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   <!-- Form -->
   <form method="post" action="">
+    <input type="text" name="website" style="display:none">
     <input type="text" name="name" placeholder="Your name" required>
     <textarea id="message" name="message" placeholder="Your message (max 500 chars)" maxlength="500" required></textarea>
     <div id="counter">0 / 500</div>
@@ -42,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             echo "<div class='entry'>";
             echo "<p><strong>$name</strong> <span class='time'>($time)</span></p>";
             echo "<p>$message</p>";
+            echo "<p><small>Length: " . strlen($message) . " characters</small></p>";
             echo "</div>";
         }
     }

@@ -80,3 +80,10 @@ button:hover {
   font-size: 0.85rem;
   color: #777;
 }
+
+.entry:nth-child(even) {
+  background: #f9f9f9;
+}
+.entry:nth-child(odd) {
+  background: #e9f5ff;
+}
