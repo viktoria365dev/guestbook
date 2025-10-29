@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   // Handle delete request
   if (isset($_POST["delete"])) {
-    $adminPassword = "MySecret123"; // <-- change this to your own password
+    $adminPassword = "MySecret123";
     if (isset($_POST["admin_pass"]) && $_POST["admin_pass"] === $adminPassword) {
       $lines = file("data.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
       $index = (int)$_POST["delete"];
@@ -53,12 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   </form>
 
   <div class="messages">
-    <h2>Messages</h2>
     <?php
     if (file_exists("data.txt")) {
       $lines = file("data.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
       $lines = array_reverse($lines); // newest first
-      echo "<p><em>Total messages: " . count($lines) . "</em></p>";
+      echo "<h2>Messages <span class='badge'>" . count($lines) . "</span></h2>";
+
 
       foreach ($lines as $index => $line) {
         list($name, $message, $time) = explode(" | ", $line);
