@@ -87,3 +87,37 @@ button:hover {
 .entry:nth-child(odd) {
   background: #e9f5ff;
 }
+
+/* Target only the small delete form inside entries */
+.entry form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  max-width: none;
+}
+
+/* Make the password field smaller */
+.entry form input[type="password"] {
+  width: auto;
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style the delete button differently from the main submit */
+.entry form button {
+  background: #e74c3c;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+}
+
+.entry form button:hover {
+  background: #c0392b;
+}

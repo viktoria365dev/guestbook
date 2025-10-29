@@ -1,29 +1,45 @@
 <?php
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-      // Honeypot spam check
-    if (!empty($_POST["website"])) { 
-        exit; 
-    }
+  // Honeypot spam check
+  if (!empty($_POST["website"])) {
+    exit;
+  }
 
+  // Handle delete request
+  if (isset($_POST["delete"])) {
+    $adminPassword = "MySecret123"; // <-- change this to your own password
+    if (isset($_POST["admin_pass"]) && $_POST["admin_pass"] === $adminPassword) {
+      $lines = file("data.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+      $index = (int)$_POST["delete"];
+      if (isset($lines[$index])) {
+        unset($lines[$index]);
+        file_put_contents("data.txt", implode("\n", $lines) . "\n");
+      }
+    } else {
+      echo "<p style='color:red;'>Wrong password. Message not deleted.</p>";
+    }
+  } else {
+    // Normal add‑message flow
     $name = htmlspecialchars($_POST["name"]);
     $message = htmlspecialchars($_POST["message"]);
-
-    // Enforce 500 character limit on server side too
     $message = substr($message, 0, 500);
 
     $entry = $name . " | " . $message . " | " . date("Y-m-d H:i:s") . "\n";
     file_put_contents("data.txt", $entry, FILE_APPEND);
+  }
 }
+
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Guestbook</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <h1>Guestbook</h1>
 
@@ -40,18 +56,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <h2>Messages</h2>
     <?php
     if (file_exists("data.txt")) {
-        $lines = file("data.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        $lines = array_reverse($lines); // newest first
-        echo "<p><em>Total messages: " . count($lines) . "</em></p>";
+      $lines = file("data.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+      $lines = array_reverse($lines); // newest first
+      echo "<p><em>Total messages: " . count($lines) . "</em></p>";
 
-        foreach ($lines as $line) {
-            list($name, $message, $time) = explode(" | ", $line);
-            echo "<div class='entry'>";
-            echo "<p><strong>$name</strong> <span class='time'>($time)</span></p>";
-            echo "<p>$message</p>";
-            echo "<p><small>Length: " . strlen($message) . " characters</small></p>";
-            echo "</div>";
-        }
+      foreach ($lines as $index => $line) {
+        list($name, $message, $time) = explode(" | ", $line);
+        echo "<div class='entry'>";
+        echo "<p><strong>$name</strong> <span class='time'>($time)</span></p>";
+        echo "<p>$message</p>";
+        echo "<form method='post' style='display:inline;'>
+            <input type='hidden' name='delete' value='$index'>
+            <input type='password' name='admin_pass' placeholder='Admin password'>
+            <button type='submit'>Delete</button>
+          </form>";
+        echo "<p><small>Length: " . strlen($message) . " characters</small></p>";
+        echo "</div>";
+      }
     }
     ?>
   </div>
@@ -64,4 +85,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     });
   </script>
 </body>
+
 </html>
