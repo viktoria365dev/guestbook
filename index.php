@@ -61,16 +61,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
       foreach ($lines as $index => $line) {
-        list($name, $message, $time) = explode(" | ", $line);
+        list($entryName, $entryMessage, $entryTime) = explode(" | ", $line);
+
+        // Get the first letter of the name for the avatar
+        $initial = strtoupper(substr(trim($entryName), 0, 1));
+
         echo "<div class='entry'>";
-        echo "<p><strong>$name</strong> <span class='time'>($time)</span></p>";
-        echo "<p>$message</p>";
-        echo "<form method='post' style='display:inline;'>
+
+        // Header with avatar + name + time
+        echo "<div class='entry-header'>";
+        echo "<div class='avatar'>$initial</div>";
+        echo "<p><strong>$entryName</strong> <span class='time'>($entryTime)</span></p>";
+        echo "</div>";
+
+        // Message text
+        echo "<p>$entryMessage</p>";
+
+        // Delete form (admin only)
+        echo "<form method='post' class='delete-form'>
             <input type='hidden' name='delete' value='$index'>
             <input type='password' name='admin_pass' placeholder='Admin password'>
             <button type='submit'>Delete</button>
           </form>";
-        echo "<p><small>Length: " . strlen($message) . " characters</small></p>";
+
+        // Extra info (message length)
+        echo "<p><small>Length: " . strlen($entryMessage) . " characters</small></p>";
+
         echo "</div>";
       }
     }
